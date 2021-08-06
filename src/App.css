@@ -412,3 +412,10 @@ table th {
     justify-content: center;
   }
 }
+
+@media (max-width: 615px) {
+  .container.users {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

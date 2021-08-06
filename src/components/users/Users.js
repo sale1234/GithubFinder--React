@@ -3,9 +3,12 @@ import Spinner from '../layout/Spinner'
 import PropTypes from 'prop-types'
 
 const Users = ({ users, loading }) => {
+  // While fetching is not over, spin
   if (loading) {
     return <Spinner />
   } else {
+    // when fetching data is over, go through users i show them
+    // and stop with spinning
     return (
       <div style={userStyle}>
         {users.map((user) => (
@@ -17,7 +20,7 @@ const Users = ({ users, loading }) => {
 }
 
 Users.propTypes = {
-  // users: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
 }
 
