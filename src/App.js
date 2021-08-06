@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users'
 import axios from 'axios'
+import Search from './components/users/Search'
 
 class App extends Component {
   state = {
@@ -10,14 +11,31 @@ class App extends Component {
     loading: false,
   }
 
-  async componentDidMount() {
-    // start with true, and then ask if it has finished, if it is, stop spinner
-    this.setState({ loading: true })
+  // async componentDidMount() {
+  //   // start with true, and then ask if it has finished, if it is, stop spinner
+  //   this.setState({ loading: true })
+  //   const res = await axios.get(
+  //     `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+  //   )
+
+  //   this.setState({ users: res.data, loading: false })
+  // }
+
+  // Search github users
+  searchUsers = async (text) => {
     const res = await axios.get(
-      `https://api.github.com/users?client_id={process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret={REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_user=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     )
 
-    this.setState({ users: res.data, loading: false })
+    // console.log(process.env.REACT_APP_GITHUB_CLIENT_ID)
+    // console.log(process.env.REACT_APP_GITHUB_CLIENT_SECRET)
+    // console.log(
+    //   'link',
+    //   `https://api.github.com/users/${text}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_user=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    // )
+
+    // console.log(res.data.items)
+    this.setState({ users: res.data.items, loading: false })
   }
 
   render() {
@@ -25,6 +43,7 @@ class App extends Component {
       <div className='App'>
         <Navbar />
         <div className='container'>
+          <Search searchUsers={this.searchUsers} />
           <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
